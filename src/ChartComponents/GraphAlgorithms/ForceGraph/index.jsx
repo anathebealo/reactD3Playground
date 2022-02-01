@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import BFSGraphContainer from './BFSGraphContainer';
-import { data } from './data';
+import BFSGraphTest from './BFSGraphTest';
 import { v4 as uuid4 } from 'uuid';
 
-export default function ForceGraph() {
+export default function ForceGraph({ data, viewEditor }) {
   const [nodesData, setNodes] = useState([]);
   const [linksData, setLinks] = useState([]);
   const [graphWithIds, setGraphWithIds] = useState();
@@ -47,15 +46,9 @@ export default function ForceGraph() {
     setNodes(nodes);
     setLinks(links);
     setGraphWithIds(idGraph);
-  }, [setNodes, setLinks]);
+  }, [data]);
 
   return (
-    <div className="App">
-      <h1>React & D3 Graph</h1>
-      { nodesData.length > 0 && linksData.length > 0
-        ? <BFSGraphContainer linksData={linksData} nodesData={nodesData} graphData={graphWithIds} />
-        : null
-      }
-    </div>
+    <BFSGraphTest links={linksData} nodes={nodesData} graph={graphWithIds} viewEditor={viewEditor} starting={''}/>
   );
 }

@@ -3,8 +3,8 @@
 // import ScaleGraphics from './ScaleGraphics';
 // import GraphFromCsv from './GraphFromCsv';
 // import GraphNetwork from './GraphNetwork';
-import ForceGraph from './ForceGraph';
+import GraphAlgorithms from './GraphAlgorithms';
 
 export default function ChartComponents() {
-  return <ForceGraph />
+  return <GraphAlgorithms />
 }

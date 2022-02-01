@@ -6,7 +6,8 @@ export default function runForceGraph(
   container,
   linksData,
   nodesData,
-  onStart
+  onStart,
+  directedGraph = false
 ) {
   const links = linksData.map((d) => Object.assign({}, d));
   const nodes = nodesData.map((d) => Object.assign({}, d));
@@ -16,7 +17,7 @@ export default function runForceGraph(
   const width = containerRect.width;
 
   const getClass = (active) => {
-    return active ? styles.active : styles.inactive;
+    return active ? styles.visited : styles.default;
   };
 
   const getLinkClass = (active) => {
@@ -58,10 +59,7 @@ export default function runForceGraph(
   const svg = d3
     .select(container)
     .append("svg")
-    .attr("viewBox", [-width / 2, -height / 2, width, height])
-    .call(d3.zoom().on("zoom", function (e) {
-      svg.attr("transform", e.transform);
-    }));
+    .attr("viewBox", [-width / 2, -height / 2, width, height]);
 
   svg.append('defs')
     .append('marker')
@@ -94,8 +92,12 @@ export default function runForceGraph(
     .selectAll("line")
     .data(links)
     .join("line")
-    .attr("class", d => `${getLinkClass(d.active)}`)
-    .attr('marker-end', d => `url(#arrow-${getLinkClass(d.active)})`);
+    .attr("id", d => d.id)
+    .attr("class", d => `${getLinkClass(d.active)}`);
+  
+  if(directedGraph) {
+    svg.selectAll("line").data(links).attr('marker-end', d => `url(#arrow-${getLinkClass(d.active)})`);
+  }
 
   const node = svg
     .append("g")
